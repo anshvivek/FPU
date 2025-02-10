@@ -1,0 +1,237 @@
+module priority_encoder_64(
+    input [53:0] significand,   // Maximum width for 64-bit floating-point
+    input [10:0] Exponent_a,    // Maximum width for 64-bit exponent
+    output reg [53:0] Significand,
+    output [10:0] Exponent_sub
+);
+
+reg [5:0] shift;  // Shift amount, sufficient for both 32-bit and 64-bit
+
+always @(significand) begin
+    casex (significand)
+        54'b11_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand;
+            shift = 6'd0;
+        end
+        54'b10_1xxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 1;
+            shift = 6'd1;
+        end
+        54'b10_01xx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 2;
+            shift = 6'd2;
+        end
+        54'b10_001x_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 3;
+            shift = 6'd3;
+        end
+        54'b10_0001_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 4;
+            shift = 6'd4;
+        end
+        54'b10_0000_1xxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 5;
+            shift = 6'd5;
+        end
+        54'b10_0000_01xx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 6;
+            shift = 6'd6;
+        end
+        54'b10_0000_001x_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 7;
+            shift = 6'd7;
+        end
+        54'b10_0000_0001_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 8;
+            shift = 6'd8;
+        end
+        54'b10_0000_0000_1xxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 9;
+            shift = 6'd9;
+        end
+        54'b10_0000_0000_01xx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 10;
+            shift = 6'd10;
+        end
+        54'b10_0000_0000_001x_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 11;
+            shift = 6'd11;
+        end
+        54'b10_0000_0000_0001_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 12;
+            shift = 6'd12;
+        end
+        54'b10_0000_0000_0000_1xxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 13;
+            shift = 6'd13;
+        end
+        54'b10_0000_0000_0000_01xx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 14;
+            shift = 6'd14;
+        end
+        54'b10_0000_0000_0000_001x_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 15;
+            shift = 6'd15;
+        end
+        54'b10_0000_0000_0000_0001_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 16;
+            shift = 6'd16;
+        end
+        54'b10_0000_0000_0000_0000_1xxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 17;
+            shift = 6'd17;
+        end
+        54'b10_0000_0000_0000_0000_01xx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 18;
+            shift = 6'd18;
+        end
+        54'b10_0000_0000_0000_0000_001x_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 19;
+            shift = 6'd19;
+        end
+        54'b10_0000_0000_0000_0000_0001_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 20;
+            shift = 6'd20;
+        end
+        54'b10_0000_0000_0000_0000_0000_1xxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 21;
+            shift = 6'd21;
+        end
+        54'b10_0000_0000_0000_0000_0000_01xx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 22;
+            shift = 6'd22;
+        end
+        54'b10_0000_0000_0000_0000_0000_001x_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 23;
+            shift = 6'd23;
+        end
+        54'b10_0000_0000_0000_0000_0000_0001_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 24;
+            shift = 6'd24;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_1xxx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 25;
+            shift = 6'd25;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_01xx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 26;
+            shift = 6'd26;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_001x_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 27;
+            shift = 6'd27;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0001_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 28;
+            shift = 6'd28;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_1xxx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 29;
+            shift = 6'd29;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_01xx_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 30;
+            shift = 6'd30;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_001x_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 31;
+            shift = 6'd31;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0001_xxxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 32;
+            shift = 6'd32;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_1xxx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 33;
+            shift = 6'd33;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_01xx_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 34;
+            shift = 6'd34;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_001x_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 35;
+            shift = 6'd35;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0001_xxxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 36;
+            shift = 6'd36;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_1xxx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 37;
+            shift = 6'd37;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_01xx_xxxx_xxxx_xxxx : begin
+            Significand = significand << 38;
+            shift = 6'd38;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_001x_xxxx_xxxx_xxxx : begin
+            Significand = significand << 39;
+            shift = 6'd39;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_0001_xxxx_xxxx_xxxx : begin
+            Significand = significand << 40;
+            shift = 6'd40;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_1xxx_xxxx_xxxx : begin
+            Significand = significand << 41;
+            shift = 6'd41;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_01xx_xxxx_xxxx : begin
+            Significand = significand << 42;
+            shift = 6'd42;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_001x_xxxx_xxxx : begin
+            Significand = significand << 43;
+            shift = 6'd43;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0001_xxxx_xxxx : begin
+            Significand = significand << 44;
+            shift = 6'd44;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_1xxx_xxxx : begin
+            Significand = significand << 45;
+            shift = 6'd45;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_01xx_xxxx : begin
+            Significand = significand << 46;
+            shift = 6'd46;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_001x_xxxx : begin
+            Significand = significand << 47;
+            shift = 6'd47;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0001_xxxx : begin
+            Significand = significand << 48;
+            shift = 6'd48;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_1xxx : begin
+            Significand = significand << 49;
+            shift = 6'd49;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_01xx : begin
+            Significand = significand << 50;
+            shift = 6'd50;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_001x : begin
+            Significand = significand << 51;
+            shift = 6'd51;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0001 : begin
+            Significand = significand << 52;
+            shift = 6'd52;
+        end
+        54'b10_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000 : begin
+            Significand = significand << 53;
+            shift = 6'd53;
+        end
+        default : begin
+            Significand = (~significand) + 1'b1;
+            shift = 11'd0;
+        end
+    endcase
+end
+
+assign Exponent_sub = Exponent_a - shift;
+
+endmodule

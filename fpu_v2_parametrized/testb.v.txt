@@ -1,0 +1,75 @@
+module test_tb(
+
+    );
+    reg clk, reset;
+    
+    reg [2:0] opcode; // 3-bit opcode to select operation
+   // input start, // signal to start operation
+    reg [63:0] op_a; // Operand A
+    reg [63:0] op_b; // Operand B
+    wire [63:0] result; // 32-bit result
+    wire exception;
+    wire overflow;
+    wire underflow;
+    wire done; // signal to indicate operation completi
+    
+    alu_fsm dut (
+   clk, reset, opcode, // 3-bit opcode to select operation
+   // input start, // signal to start operation
+    op_a, // Operand A
+     op_b, // Operand B
+    result, // 32-bit result
+    exception,
+    overflow,
+    underflow, 
+    done // signal to indicate operation completion
+);
+
+initial begin
+clk=1;
+forever #10 clk=~clk;
+end
+
+initial begin
+#10 reset = 1;
+#30
+reset = 0;
+
+op_a = 32'h000000004234851F;
+op_b = 32'h00000000427C_851F;
+// result = 32'h4532_10E9
+opcode = 3'b011;
+
+#20
+//sub
+op_b = 64'h498AB51E5329001C; //1.77091407492357741200535094055E46
+op_a = 64'h4988D0D7BA2C411C; //1.90591045736083991748277531304E46
+//result sub = 64'h494E44698FCBF000 = 1.3499638243726250547742437249E45
+opcode = 3'b010;
+  
+#20
+
+//add
+op_a = 64'h00000000406851EC; 
+op_b = 64'h000000004090A3D7;
+//result = 32'h4102_6666
+opcode = 3'b001;
+  
+
+  
+#20 
+//sqroot
+op_a = 64'h40F86A0000000000;
+//result = 62'h4073C3AB151654A1
+opcode = 3'b101;
+        
+        
+ #20
+op_a = 64'h0000000042c80000;
+op_b = 64'h0000000041880000;
+// result = 32'h40bc3c3c
+opcode = 3'b100;
+
+        #6000 $finish;
+end
+endmodule
